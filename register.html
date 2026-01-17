@@ -1,51 +1,194 @@
-try {
-    /* 1️⃣ GET USERS */
-    const checkRes = await fetch(SHEETY_URL);
-    const checkData = await checkRes.json();
-    const users = checkData.paigen1 || [];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paigen – Register</title>
 
-    const duplicate = users.some(u => u.phone === phone);
+  <style>
+    *{
+      box-sizing:border-box;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
+    }
+    body{
+      margin:0;
+      background:#fff;
+      display:flex;
+      justify-content:center
+    }
+    .container{
+      width:100%;
+      max-width:430px;
+      padding:24px 20px 40px
+    }
+    .back{
+      font-size:22px;
+      margin-bottom:20px;
+      cursor:pointer
+    }
+    .logo-wrapper{
+      text-align:center;
+      margin:20px 0 30px
+    }
+    .logo{
+      display:inline-flex;
+      align-items:center;
+      gap:10px
+    }
+    .logo-text{
+      font-size:26px;
+      font-weight:600;
+      color:#111
+    }
+    .input{
+      width:100%;
+      height:56px;
+      border-radius:28px;
+      border:none;
+      outline:none;
+      padding:0 20px;
+      margin-bottom:16px;
+      background:#cfe7fb;
+      font-size:16px;
+      color:#222
+    }
+    .phone-wrapper{
+      display:flex;
+      align-items:center;
+      background:#cfe7fb;
+      border-radius:28px;
+      height:56px;
+      padding:0 16px;
+      margin-bottom:16px
+    }
+    .country{
+      margin-right:8px;
+      font-size:16px
+    }
+    .phone-input{
+      border:none;
+      outline:none;
+      background:transparent;
+      font-size:16px;
+      width:100%
+    }
+    .btn{
+      width:100%;
+      height:56px;
+      border-radius:28px;
+      border:none;
+      background:#1f7a3f;
+      color:#fff;
+      font-size:18px;
+      font-weight:600;
+      margin-top:10px
+    }
+    .btn:disabled{opacity:.7}
+    .login{
+      text-align:center;
+      margin-top:24px;
+      font-size:15px
+    }
+    .login a{
+      font-weight:600;
+      color:#000;
+      text-decoration:none
+    }
+  </style>
+</head>
 
-    if (duplicate) {
-      alert("Phone number already registered");
+<body>
+
+<div class="container">
+
+  <div class="back" onclick="history.back()">←</div>
+
+  <div class="logo-wrapper">
+    <div class="logo">
+      <svg width="46" height="46" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2ecc71"/>
+            <stop offset="100%" stop-color="#1f7a3f"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5C30 30 20 45 20 60a30 30 0 0060 0c0-15-10-30-30-55z" fill="url(#g)"/>
+        <circle cx="50" cy="62" r="10" fill="#fff"/>
+      </svg>
+      <div class="logo-text">Paigen</div>
+    </div>
+  </div>
+
+  <div class="phone-wrapper">
+    <div class="country">+234</div>
+    <input class="phone-input" placeholder="Please enter mobile number">
+  </div>
+
+  <input class="input" type="password" placeholder="Password">
+  <input class="input" type="password" placeholder="Repeat password">
+
+  <button class="btn" id="registerBtn">Sign up now</button>
+
+  <div class="login">
+    Already registered? <a href="login.html">Login in</a>
+  </div>
+
+</div>
+
+<script>
+const SHEETY_URL = "https://api.sheety.co/063b7e80466382fc37a14b4f5ae358b1/paigen1/paigen1";
+const btn = document.getElementById("registerBtn");
+
+btn.addEventListener("click", async () => {
+  const phone = document.querySelector(".phone-input").value.trim();
+  const password = document.querySelectorAll(".input")[0].value.trim();
+  const confirm = document.querySelectorAll(".input")[1].value.trim();
+
+  if(!phone || !password || !confirm){
+    alert("Fill all fields");
+    return;
+  }
+
+  if(password !== confirm){
+    alert("Passwords do not match");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Checking...";
+
+  try{
+    const res = await fetch(SHEETY_URL);
+    const data = await res.json();
+    const users = data.paigen1 || [];
+
+    if(users.some(u => u.phone === phone)){
+      alert("Phone already registered");
       btn.disabled = false;
       btn.textContent = "Sign up now";
       return;
     }
 
-    /* 2️⃣ SAVE USER */
     btn.textContent = "Saving...";
 
-    const saveRes = await fetch(SHEETY_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        paigen1: {
-          phone: phone,
-          password: password
-        }
+    await fetch(SHEETY_URL,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({
+        paigen1:{ phone, password }
       })
     });
 
-    if (!saveRes.ok) {
-      alert("Registration failed");
-      btn.disabled = false;
-      btn.textContent = "Sign up now";
-      return;
-    }
+    alert("Registered successfully");
+    location.href = "login.html";
 
-    /* 3️⃣ SUCCESS */
-    alert("Registered successfully!");
-    window.location.href = "login.html";
-
-  } catch (err) {
-    console.error(err);
+  }catch(e){
     alert("Network error");
     btn.disabled = false;
     btn.textContent = "Sign up now";
   }
-};
+});
 </script>
 
 </body>
-</html>
+    </html>
