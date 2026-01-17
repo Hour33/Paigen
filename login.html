@@ -1,1 +1,147 @@
-lohgi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paigen – Login</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
+}
+body{
+  margin:0;
+  background:#fff;
+  display:flex;
+  justify-content:center
+}
+.container{
+  width:100%;
+  max-width:430px;
+  padding:40px 20px
+}
+.logo-wrapper{
+  text-align:center;
+  margin:30px 0 40px
+}
+.logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px
+}
+.logo-text{
+  font-size:26px;
+  font-weight:600;
+  color:#111
+}
+.input{
+  width:100%;
+  height:56px;
+  border-radius:28px;
+  border:none;
+  outline:none;
+  padding:0 20px;
+  margin-bottom:18px;
+  background:#cfe7fb;
+  font-size:16px;
+  color:#222
+}
+.phone-wrapper{
+  display:flex;
+  align-items:center;
+  background:#cfe7fb;
+  border-radius:28px;
+  height:56px;
+  padding:0 16px;
+  margin-bottom:18px
+}
+.country{
+  margin-right:8px;
+  font-size:16px
+}
+.phone-input{
+  border:none;
+  outline:none;
+  background:transparent;
+  font-size:16px;
+  width:100%
+}
+.btn{
+  width:100%;
+  height:56px;
+  border-radius:28px;
+  border:none;
+  background:#1f7a3f;
+  color:#fff;
+  font-size:18px;
+  font-weight:600;
+  margin-top:10px
+}
+.text{
+  text-align:center;
+  margin-top:28px;
+  font-size:15px
+}
+.text a{
+  font-weight:600;
+  color:#000;
+  text-decoration:none
+}
+#msg{
+  text-align:center;
+  margin-top:15px;
+  font-size:14px;
+  color:red
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo-wrapper">
+    <div class="logo">
+      <svg width="46" height="46" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2ecc71"/>
+            <stop offset="100%" stop-color="#1f7a3f"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5C30 30 20 45 20 60a30 30 0 0060 0c0-15-10-30-30-55z" fill="url(#g)"/>
+        <circle cx="50" cy="62" r="10" fill="#fff"/>
+      </svg>
+      <div class="logo-text">Paigen</div>
+    </div>
+  </div>
+
+  <div class="phone-wrapper">
+    <div class="country">+234</div>
+    <input class="phone-input" placeholder="Please enter your mobile number">
+  </div>
+
+  <input class="input" type="password" placeholder="Please enter your password">
+
+  <button class="btn" id="loginBtn">Sign in now</button>
+
+  <div id="msg"></div>
+
+  <div class="text">
+    Don’t have an account yet? <a href="register.html">Register now</a>
+  </div>
+
+</div>
+
+<script>
+const btn = document.getElementById("loginBtn");
+const msg = document.getElementById("msg");
+
+btn.onclick = () => {
+  msg.textContent = "Login failed";
+};
+</script>
+
+</body>
+  </html>
